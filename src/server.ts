@@ -7,7 +7,7 @@ import User from 'Model/userModel';
 dotenv.config();
 const app: Application = express();
 const PORT: string | number = process.env.PORT || 8000;
-const URI: string = process.env.URI || ''; 
+const URI: string = process.env.URI || '6000'; 
 
 // const user=require("../Model/userModel"); 
 app.use(cors());
