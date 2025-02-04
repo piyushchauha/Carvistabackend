@@ -3,6 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import userRoute from './Routes/userRoutes';
+import carRoute from './Routes/carRoutes';
+
 import User from 'Model/userModel';
 dotenv.config();
 const app: Application = express();
@@ -20,3 +22,4 @@ mongoose.connect(process.env.URI || '').then(() => {
   });
 
 app.use("/user",userRoute)
+app.use("/car",carRoute)
