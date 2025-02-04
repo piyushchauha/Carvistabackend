@@ -21,8 +21,8 @@ mongoose.connect(process.env.URI || 'mongodb://localhost:27017/mydatabase').then
   process.exit(1);
 });
 // Login API
-app.post('/login', async (req: Request, res: Response): Promise<void>=> {
-  try {
+export const signInUser = async (req: Request, res: Response) => {
+    try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     
@@ -47,10 +47,10 @@ app.post('/login', async (req: Request, res: Response): Promise<void>=> {
       res.status(500).json({ error: error.message });
     }
   }
-});
+};
 // Create User (C)
-app.post('/adduser', async (req: Request, res: Response) => {
-  try {
+export const createUser = async (req: Request, res: Response) => {
+    try {
     const { name, email,contact, password } = req.body;
     const user = new User({
       name,
@@ -65,21 +65,21 @@ app.post('/adduser', async (req: Request, res: Response) => {
     if(error instanceof Error)
     res.status(400).json({ error: error.message });
   }
-});
+};
 
 // Get All Users (R)
-app.get('/allusers',verifytoken, async (req: Request, res: Response) => {
-  try {
+export const getAllUsers = async (req: Request, res: Response) => {
+    try {
     const users = await User.find();
     res.status(200).json(users);
   } catch (error) {
     if(error instanceof Error)
     res.status(400).json({ error: error.message });
   }
-});
+};
 
 // // Get User by ID (R)
-app.get('/:id',async (req: Request, res: Response): Promise<void> => {
+export const getSingleUsers = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
       const singleUser = await User.findById(id);
@@ -95,13 +95,12 @@ app.get('/:id',async (req: Request, res: Response): Promise<void> => {
         res.status(500).json({ error: 'An unknown error occurred' });
       }
     }
-  }
-);
+  };
 
 
 // // Update User (U)
 // patch operation Api
-app.patch('/:id',async (req: Request, res: Response): Promise<void> => {
+export const updateUser = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
       const updateUser = await User.findByIdAndUpdate(id, req.body, {
@@ -115,26 +114,24 @@ app.patch('/:id',async (req: Request, res: Response): Promise<void> => {
         res.status(500).json({ error: error.message });
       }
     }
-  }
-);
+  };
 
 
 // // Delete User (D)
-app.delete('/:id',
-  async (req: Request, res: Response): Promise<void> => {
+export const deleteUser = async (req: Request, res: Response) => {
+
     const { id } = req.params;
     try {
       const singleUser = await User.findByIdAndDelete(id);
       if (!singleUser) {
         res.status(404).json({ error: 'User not found' });
       }
-      res.status(204).json();
+      res.status(200).json(singleUser);
     } catch (error) {
       if (error instanceof Error) {
         res.status(500).json({ error: error.message });
       }
     }
-  }
-);
+  };
 
 export default app;

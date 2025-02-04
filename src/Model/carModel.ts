@@ -17,7 +17,6 @@ const carSchema: Schema<ICar> = new Schema(
     manufracturer: {
       type: String,
       required: true,
-      unique: true,
     },
     year: {
         type: Date,
