@@ -1,5 +1,8 @@
+
+
+
+
 import express, { Request, Response } from 'express';
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import Car from '../Model/carModel';
 // import User from 'Model/userModel';
@@ -7,16 +10,6 @@ import Car from '../Model/carModel';
 
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 8000;
-app.use(express.json()); // Middleware to parse JSON data
-
-// MongoDB Connection
-mongoose.connect(process.env.URI || 'mongodb://localhost:27017/mydatabase').then(() => {
-  console.log('Connected to MongoDB');
-}).catch((error) => {
-  console.error('Failed to connect to MongoDB:', error);
-  process.exit(1);
-});
 
 // Create User (C)
 export const addCar = async (req: Request, res: Response) => {
@@ -27,7 +20,7 @@ export const addCar = async (req: Request, res: Response) => {
       manufracturer,
       year,
       price,
-      status // In real applications, password should be hashed
+      status 
     });
 
     const savedCar = await car.save();
@@ -106,4 +99,3 @@ export const deletecar = async (req: Request, res: Response) => {
     }
   };
 
-export default app;

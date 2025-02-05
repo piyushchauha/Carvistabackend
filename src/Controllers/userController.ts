@@ -13,13 +13,6 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 app.use(express.json()); // Middleware to parse JSON data
 
-// MongoDB Connection
-mongoose.connect(process.env.URI || 'mongodb://localhost:27017/mydatabase').then(() => {
-  console.log('Connected to MongoDB');
-}).catch((error) => {
-  console.error('Failed to connect to MongoDB:', error);
-  process.exit(1);
-});
 // Login API
 export const signInUser = async (req: Request, res: Response) => {
     try {
@@ -134,4 +127,3 @@ export const deleteUser = async (req: Request, res: Response) => {
     }
   };
 
-export default app;

@@ -16,7 +16,7 @@ const router = express.Router();
 // Define the routes and associate them with controller functions
 router.post("/adduser", createUser);
 router.post("/signin", signInUser);
-router.get("/allusers", verifytoken, getAllUsers);
+router.get("/allusers", getAllUsers);
 router.get("/getsingleuser/:id", getSingleUsers);
 router.delete("/deleteuser/:id", deleteUser);
 router.patch("/updateuser/:id", updateUser);
