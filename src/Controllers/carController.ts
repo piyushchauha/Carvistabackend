@@ -43,28 +43,7 @@ export const allCars = async (req: Request, res: Response) => {
   }
 };
 
-// // // Get User by ID (R)
-// app.get('/:id',async (req: Request, res: Response): Promise<void> => {
-//     const { id } = req.params;
-//     try {
-//       const singleUser = await User.findById(id);
-//       if (singleUser) {
-//         res.status(200).json(singleUser);
-//       } else {
-//         res.status(404).json('Users not found');
-//       }
-//     } catch (error) {
-//       if (error instanceof Error) {
-//         res.status(500).json({ error: error.message });
-//       } else {
-//         res.status(500).json({ error: 'An unknown error occurred' });
-//       }
-//     }
-//   }
-// );
 
-
-// // // Update User (U)
 // // patch operation Api
 export const updateCar = async (req: Request, res: Response) => {
   const { id } = req.params;
