@@ -4,7 +4,8 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import userRoute from './Routes/userRoutes';
 import carRoute from './Routes/carRoutes';
-
+import testdriveRoute from './Routes/testdriveRoutes';
+import inspectionRoute from './Routes/inspectionRoutes';
 import User from 'Model/userModel';
 dotenv.config();
 const app: Application = express();
@@ -23,3 +24,5 @@ mongoose.connect(process.env.URI || '').then(() => {
 
 app.use("/user",userRoute)
 app.use("/car",carRoute)
+app.use("/testdrive",testdriveRoute)
+app.use("/inspection",inspectionRoute)

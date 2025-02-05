@@ -12,6 +12,7 @@ const testDriveSchema: Schema<ITestdrive> = new Schema(
   {
     carId: {
         type: Schema.Types.ObjectId,
+        ref: 'Car',
         required: true,
       },
       userId: {
@@ -33,5 +34,5 @@ const testDriveSchema: Schema<ITestdrive> = new Schema(
   { timestamps: true } // Automatically add createdAt and updatedAt fields
 );
 // Create the model
-const Testdrive = mongoose.model<ITestdrive>('Car', testDriveSchema);
+const Testdrive = mongoose.model<ITestdrive>('Testdrive', testDriveSchema);
 export default Testdrive;
