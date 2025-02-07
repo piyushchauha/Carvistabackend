@@ -16,7 +16,7 @@ export const scheduleTestDrive = async (req: Request, res: Response) => {
       .status(201)
       .json({ message: "Test drive scheduled successfully", testDrive });
   } catch (error) {
-    res.status(500).json({ error: "Failed to schedule test drive" });
+    res.status(500).json({ error: "Failed to schedule test drive" }); 
   }
 };
 
