@@ -1,16 +1,23 @@
+//Express
 import express from "express";
+
+//InspectionController
 import {
   addInspection,
   deleteInspection,
   updateInspection,
   allInspection,
-} from "../Controllers/inspectionController"; // Adjust the import path as necessary
+  getInspection,
+} from "../Controllers/inspectionController"; 
+
 const router = express.Router();
-// Define the routes and associate them with controller functions
+
 router.post("/addinspection", addInspection);
 router.get("/allinspection", allInspection);
 router.delete("/deleteinspection/:id", deleteInspection);
 router.patch("/updateinspection/:id", updateInspection);
+router.get("/getinspection/:id", getInspection);
+
 export default router;
 
 

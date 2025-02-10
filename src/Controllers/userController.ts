@@ -1,17 +1,20 @@
+//Express
 import express, { Request, Response } from 'express';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import User from '../Model/userModel';
-import  jwt  from 'jsonwebtoken';
-import verifytoken from '../Middleware/authantication';
-// import User from 'Model/userModel';
-// import User from './Model/userModel'/;
 
-dotenv.config();
+//UserModel
+import User from '../Model/userModel';
+
+//JwtWebToken
+import  jwt  from 'jsonwebtoken';
+
+//Messages
+import { Messages } from '../Constants/Messages';
+
 const JWTSECRET="your_jwt_secret_key";
+
 const app = express();
-const PORT = process.env.PORT || 8000;
-app.use(express.json()); // Middleware to parse JSON data
+
+app.use(express.json()); 
 
 // Login API
 export const signInUser = async (req: Request, res: Response) => {
@@ -20,7 +23,7 @@ export const signInUser = async (req: Request, res: Response) => {
     const user = await User.findOne({ email });
     
     if (!user) {
-      res.status(401).json({ error: 'Invalid email or password' });
+      res.status(401).json({ error: Messages.InvalidEmail });
       return;
     }
     
@@ -29,19 +32,21 @@ export const signInUser = async (req: Request, res: Response) => {
       const token=jwt.sign({id:user._id,email:user.email},JWTSECRET,{
         expiresIn:'50s'
       });
-      res.status(200).json({ message: 'Login successful',token });
+      res.status(200).json({ message:Messages.LoginSuccess,token });
+      return;
      
     }else{
-       res.status(401).json({ error: 'Invalid email or password' });
+       res.status(401).json({ error: Messages.InvalidEmail });
        return;
     }
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });
+      return;
     }
   }
 };
-// Create User (C)
+// Create User 
 export const createUser = async (req: Request, res: Response) => {
     try {
     const { name, email,contact, password } = req.body;
@@ -49,7 +54,7 @@ export const createUser = async (req: Request, res: Response) => {
       name,
       email,
       contact,
-      password, // In real applications, password should be hashed
+      password,
     });
 
     const savedUser = await user.save();
@@ -57,10 +62,11 @@ export const createUser = async (req: Request, res: Response) => {
   } catch (error) {
     if(error instanceof Error)
     res.status(400).json({ error: error.message });
+    return;
   }
 };
 
-// Get All Users (R)
+// Get All Users 
 export const getAllUsers = async (req: Request, res: Response) => {
     try {
     const users = await User.find();
@@ -68,31 +74,35 @@ export const getAllUsers = async (req: Request, res: Response) => {
   } catch (error) {
     if(error instanceof Error)
     res.status(400).json({ error: error.message });
+    return;
   }
 };
 
-// // Get User by ID (R)
+// Get User by ID 
 export const getSingleUsers = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
       const singleUser = await User.findById(id);
       if (singleUser) {
         res.status(200).json(singleUser);
+        return;
       } else {
-        res.status(404).json('Users not found');
+        res.status(404).json(Messages.UserNotFound);
+        return;
       }
     } catch (error) {
       if (error instanceof Error) {
         res.status(500).json({ error: error.message });
+        return;
       } else {
-        res.status(500).json({ error: 'An unknown error occurred' });
+        res.status(500).json({ error: Messages.UnknownError });
+        return;
       }
     }
   };
 
 
-// // Update User (U)
-// patch operation Api
+// Update User 
 export const updateUser = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
@@ -110,14 +120,14 @@ export const updateUser = async (req: Request, res: Response) => {
   };
 
 
-// // Delete User (D)
+// Delete User 
 export const deleteUser = async (req: Request, res: Response) => {
 
     const { id } = req.params;
     try {
       const singleUser = await User.findByIdAndDelete(id);
       if (!singleUser) {
-        res.status(404).json({ error: 'User not found' });
+        res.status(404).json({ error:Messages.UserNotFound });
       }
       res.status(200).json(singleUser);
     } catch (error) {
@@ -127,4 +137,3 @@ export const deleteUser = async (req: Request, res: Response) => {
     }
   };
 
-export default app;

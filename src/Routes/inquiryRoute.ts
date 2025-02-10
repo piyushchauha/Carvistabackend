@@ -1,12 +1,16 @@
-import express,{Router} from 'express';
-import { addinquiry, deleteinquiry, getinquiry, updateinquiry } from '../Controllers/inquiryController';
+//Express
+import express from 'express';
 
-const router = Router();
+//InquiryController
+import { addInquiry, allInquiry, deleteInquiry, getInquiry, updateInquiry } from '../Controllers/inquiryController';
 
-router.post('/addinquiry', addinquiry);
-router.get('/getinquiry', getinquiry);
-router.delete('/deleteinquiry/:id', deleteinquiry);
-router.patch('/updateinquiry/:id',updateinquiry);
+const router = express.Router();
+
+router.post('/addinquiry', addInquiry);
+router.get('/allinquiry', allInquiry);
+router.delete('/deleteinquiry/:id', deleteInquiry);
+router.patch('/updateinquiry/:id',updateInquiry);
+router.get('/getinquiry/:id',getInquiry);
 
 
 export default router;

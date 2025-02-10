@@ -1,13 +1,13 @@
-import mongoose, { Document, Schema } from 'mongoose';
-import { model, Types } from 'mongoose';
-// Define an interface for the User document
+//Mongoose
+import mongoose, { Document, Schema,Types } from 'mongoose';
+
 interface ITestdrive{
-    carId: Types.ObjectId;  // Reference to Car
-    userId: Types.ObjectId; // Reference to User
-    date: Date;             // Test drive scheduled date
+    carId: Types.ObjectId;  
+    userId: Types.ObjectId; 
+    date: Date;           
     status: 'pending' | 'approved' | 'completed' | 'cancelled'; 
 }
-// Define the schema
+
 const testDriveSchema: Schema<ITestdrive> = new Schema(
   {
     carId: {
@@ -31,8 +31,9 @@ const testDriveSchema: Schema<ITestdrive> = new Schema(
         default: 'pending'
       },
   },
-  { timestamps: true } // Automatically add createdAt and updatedAt fields
+  { timestamps: true } 
 );
-// Create the model
+
 const Testdrive = mongoose.model<ITestdrive>('Testdrive', testDriveSchema);
+
 export default Testdrive;

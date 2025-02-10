@@ -1,21 +1,23 @@
-// src/routes/userRoutes.ts
+//Express
 import express from "express";
+
+//Carcontroller
 import {
   addCar,
   allCars,
-  deletecar,
+  deleteCar,
+  getCar,
   updateCar
-} from "../Controllers/carController"; // Adjust the import path as necessary
+} from "../Controllers/carController"; 
+
 
 const router = express.Router();
 
-// Define the routes and associate them with controller functions
 router.post("/addcar", addCar);
 router.get("/allcars", allCars);
-router.delete("/deletecar/:id", deletecar);
+router.delete("/deletecar/:id", deleteCar);
 router.patch("/updatecar/:id", updateCar);
-
-
+router.get("/getcar/:id", getCar);
 
 
 export default router;

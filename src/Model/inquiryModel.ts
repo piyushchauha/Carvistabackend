@@ -1,13 +1,13 @@
 import mongoose, { Schema, Document } from "mongoose";
-// Define an interface for the Inspection document
+
 export interface IInquiry extends Document {
     carId: mongoose.Types.ObjectId;
     userId: mongoose.Types.ObjectId;
     date: Date;
     status:'pending' | 'approved' | 'completed' | 'cancelled'; 
 }
-// Define the Mongoose Schema
-const InquirySchema = new Schema<IInquiry>({
+
+const inquirySchema = new Schema<IInquiry>({
     carId:
     {
         type: Schema.Types.ObjectId,
@@ -28,11 +28,13 @@ const InquirySchema = new Schema<IInquiry>({
    status:
     {
     type: String,
-    required: true
+    required: true,
+    enum: ["pending", "approved", "rejected", "sold"]
     },
-});
-// Export the model
-const Inquiry = mongoose.model<IInquiry>("Inquiry", InquirySchema);
+},{timestamps:true});
+
+const Inquiry = mongoose.model<IInquiry>("Inquiry", inquirySchema);
+
 export default Inquiry;
 
 

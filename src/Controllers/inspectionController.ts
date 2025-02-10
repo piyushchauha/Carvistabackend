@@ -1,13 +1,17 @@
+//Express
 import express, { Request, Response } from 'express';
-import dotenv from 'dotenv';
-import Car from '../Model/carModel';
-// import Inspection from '../Model/inspectionModel';
+
+//InspectionModel
 import Inspection from '../Model/inspectionModel';
-import { inspect } from 'node:util';
-// import User from 'Model/userModel';
-// import User from './Model/userModel'/;
-dotenv.config();
+
+//Messages
+import { Messages } from '../Constants/Messages';
+
 const app = express();
+
+app.use(express.json()); 
+
+
 // Create inspection
 export const addInspection= async (req: Request, res: Response) => {
   try {
@@ -23,9 +27,10 @@ export const addInspection= async (req: Request, res: Response) => {
   } catch (error) {
     if(error instanceof Error)
     res.status(400).json({ error: error.message });
+    return;
   }
 };
-// Get All Users (R)
+// Get All Users 
 export const allInspection = async (req: Request, res: Response) => {
   try {
     const cars = await Inspection.find().populate('userId carId');
@@ -33,6 +38,7 @@ export const allInspection = async (req: Request, res: Response) => {
   } catch (error) {
     if(error instanceof Error)
     res.status(400).json({ error: error.message });
+    return;
   }
 };
 //Update Inspection Details
@@ -47,6 +53,7 @@ export const updateInspection = async (req: Request, res: Response) => {
       console.log(error);
       if (error instanceof Error) {
         res.status(500).json({ error: error.message });
+        return;
       }
     }
   };
@@ -56,16 +63,41 @@ export const deleteInspection = async (req: Request, res: Response) => {
     try {
       const deleteInspection = await Inspection.findByIdAndDelete(id);
       if (!deleteInspection) {
-        res.status(404).json({ error: 'Inspection not found' });
+        res.status(404).json({ error: Messages.inspectionNotFound });
+        return;
       }
-      res.status(200).json({message: "Inspection Deleted Successfully",deleteInspection});
+      res.status(200).json({message:Messages.inspectionDeleted,deleteInspection});
     } catch (error) {
       if (error instanceof Error) {
         res.status(500).json({ error: error.message });
+        return;
       }
     }
   };
-export default app;
+
+//Get teh Inspection By Id
+
+export const getInspection = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const getInspection = await Inspection.findById(id);
+    if (!getInspection) {
+      res.status(200).json(getInspection);
+      return;
+    } else {
+      res.status(404).json(Messages.InspectionNotFound);
+      return;
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+      return;
+    } else {
+      res.status(500).json({ error: Messages.UnknownError });
+      return;
+    }
+  }
+};
 
 
 

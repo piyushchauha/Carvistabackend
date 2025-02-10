@@ -1,8 +1,20 @@
-import { Request, Response } from "express";
+//Express
+import express,{ Request, Response } from "express";
+
+//InquiryModel
 import Inquiry from "../Model/inquiryModel";
 
+//Messages
+import {Messages} from '../Constants/Messages'
+
+const app = express();
+
+
+app.use(express.json()); 
+
+
 // Schedule a test drive
-export const addinquiry = async (req: Request, res: Response) => {
+export const addInquiry = async (req: Request, res: Response) => {
   try {
     const { carId, userId, date,status } = req.body;
 
@@ -14,53 +26,84 @@ export const addinquiry = async (req: Request, res: Response) => {
     });
     res
       .status(200)
-      .json({ message: "Inquire added successfully", addInquiry});
+      .json({ message: Messages.inquiryAdded, addInquiry});
   } catch (error) {
-    res.status(500).json({ error: "Failed to inquire the car" });
+    res.status(500).json({ error: Messages.inquiryFailed});
+    return;
   }
 };
 
 // Get all test drives
-export const getinquiry = async (req: Request, res: Response) => {
+export const allInquiry = async (req: Request, res: Response) => {
   try {
-    const getinquiry = await Inquiry.find().populate("carId userId");
-    res.status(200).json(getinquiry);
+    const getInquiry = await Inquiry.find().populate("carId userId");
+    res.status(200).json(getInquiry);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetchInquiry details" });
+    res.status(500).json({ error: Messages.inquiryFailed});
+    return;
   }
 };
 
 // Cancel a test drive
-export const deleteinquiry = async (req: Request, res: Response) => {
+export const deleteInquiry = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const deleteinquiry = await Inquiry.findByIdAndDelete(id);
-    if (!deleteinquiry) {
-      res.status(404).json({ error: "Inquiry not found" });
+    const deleteInquiry = await Inquiry.findByIdAndDelete(id);
+    if (!deleteInquiry) {
+      res.status(404).json({ error: Messages.inquiryNotFound });
+      return;
     }
-    res.status(200).json({ message: "Deleted Inquiry", deleteinquiry });
+    res.status(200).json({ message: Messages.inquiryDeleted, deleteInquiry });
   } catch (error) {
-    res.status(500).json({ error: "Failed to cancel inquiry" });
+    res.status(500).json({ error: Messages. inquiryCancelFailed});
+    return;
   }
 };
 // Update test drive status
-export const updateinquiry = async (req: Request, res: Response) => {
+export const updateInquiry = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
 
-    const updatedinquiry = await Inquiry.findByIdAndUpdate(
+    const updatedInquiry = await Inquiry.findByIdAndUpdate(
       id,
       { status },
       { new: true }
     );
-    if (!updatedinquiry) {
-      res.status(404).json({ error: "Inquiry details not found" });
+    if (!updatedInquiry) {
+      res.status(404).json({ error: Messages.inquiryNotFound});
+      return;
     }
     res
       .status(200)
-      .json({ message: "Inquiry details updated", updatedinquiry});
+      .json({ message:Messages.inquiryUpdated, updatedInquiry});
   } catch (error) {
-    res.status(500).json({ error: "Failed to update inquiry details" });
+    res.status(500).json({ error:Messages.inquiryUpdateFailed });
+    return;
   }
 };
+
+//Get the Inquiry By id
+
+export const getInquiry = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const getInquiry = await Inquiry.findById(id);
+    if (!getInquiry) {
+      res.status(200).json(getInquiry);
+      return;
+    } else {
+      res.status(404).json(Messages.CarNotFound);
+      return;
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+      return;
+    } else {
+      res.status(500).json({ error: Messages.UnknownError });
+      return;
+    }
+  }
+};
+

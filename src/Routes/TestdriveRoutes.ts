@@ -1,12 +1,16 @@
-import express,{Router} from 'express';
-import { cancelTestDrive, getTestDrives, scheduleTestDrive, updateTestDriveStatus } from '../Controllers/testdriveController';
+//Express
+import express from 'express';
 
-const router = Router();
+//TestdriveController
+import { allTestdrive, cancelTestdrive, getTestdrive, scheduleTestdrive, updateTestdrivestatus } from '../Controllers/testdriveController';
 
-router.post('/scheduleTestDrive', scheduleTestDrive);
-router.get('/getTestDrive', getTestDrives);
-router.delete('/cancelTestDrive/:id', cancelTestDrive);
-router.patch('/updateTestDriveStatus/:id',updateTestDriveStatus);
+const router = express.Router();
+
+router.post('/scheduleTestDrive', scheduleTestdrive);
+router.get('/allTestDrive', allTestdrive);
+router.delete('/cancelTestDrive/:id', cancelTestdrive);
+router.patch('/updateTestDriveStatus/:id',updateTestdrivestatus);
+router.get('/getTestdrive/:id',getTestdrive);
 
 
 export default router;

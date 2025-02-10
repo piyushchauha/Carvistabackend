@@ -1,38 +1,38 @@
+//Express
 import express, { Request, Response } from 'express';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
+
+//CarModel
 import Car from '../Model/carModel';
-// import User from 'Model/userModel';
-// import User from './Model/userModel'/;
 
-dotenv.config();
+//Messages
+import { Messages } from '../Constants/Messages';
+
 const app = express();
-const PORT = process.env.PORT || 8000;
-app.use(express.json()); // Middleware to parse JSON data
 
+app.use(express.json()); 
 
-
-// Create User (C)
+// Create User 
 export const addCar = async (req: Request, res: Response) => {
   try {
-    const {model,manufracturer,year,price,status } = req.body;
+    const {model,manufacturer,year,price,status } = req.body;
     const car = new Car({
       model,
-      manufracturer,
+      manufacturer,
       year,
       price,
-      status // In real applications, password should be hashed
+      status 
     });
 
     const savedCar = await car.save();
-    res.status(201).json(savedCar);
+    res.status(200).json(savedCar);
   } catch (error) {
     if(error instanceof Error)
     res.status(400).json({ error: error.message });
+    return;
   }
 };
 
-// Get All Users (R)
+// Get All Users 
 export const allCars = async (req: Request, res: Response) => {
   try {
     const cars = await Car.find();
@@ -40,11 +40,12 @@ export const allCars = async (req: Request, res: Response) => {
   } catch (error) {
     if(error instanceof Error)
     res.status(400).json({ error: error.message });
+    return;
   }
 };
 
 
-// // patch operation Api
+// Update User
 export const updateCar = async (req: Request, res: Response) => {
   const { id } = req.params;
     try {
@@ -57,26 +58,53 @@ export const updateCar = async (req: Request, res: Response) => {
       console.log(error);
       if (error instanceof Error) {
         res.status(500).json({ error: error.message });
+        return;
       }
     }
   };
 
 
-// // // Delete User (D)
-export const deletecar = async (req: Request, res: Response) => {
+//  Delete User 
+export const deleteCar = async (req: Request, res: Response) => {
 
     const { id } = req.params;
     try {
-      const deletecar = await Car.findByIdAndDelete(id);
-      if (!deletecar) {
-        res.status(404).json({ error: 'Car not found' });
+      const deleteCar = await Car.findByIdAndDelete(id);
+      if (!deleteCar) {
+        res.status(404).json({ error:Messages.carNotFound });
+        return;
       }
-      res.status(200).json({message: "Car Deleted Successfully",deletecar});
+      res.status(200).json({message: Messages.carDeleted,deleteCar});
     } catch (error) {
       if (error instanceof Error) {
         res.status(500).json({ error: error.message });
+        return;
       }
     }
   };
 
-export default app;
+
+  //Get the car by id
+
+  export const getCar = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+      const getCar = await Car.findById(id);
+      if (getCar) {
+        res.status(200).json(getCar);
+        return;
+      } else {
+        res.status(404).json(Messages.CarNotFound);
+        return;
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(500).json({ error: error.message });
+        return;
+      } else {
+        res.status(500).json({ error: Messages.UnknownError });
+        return;
+      }
+    }
+  };
+

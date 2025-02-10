@@ -1,13 +1,14 @@
+//Mongoose
 import mongoose, { Schema, Document } from "mongoose";
-// Define an interface for the Inspection document
+
 export interface IInspection extends Document {
     carId: mongoose.Types.ObjectId;
     userId: mongoose.Types.ObjectId;
     date: Date;
     location: string;
 }
-// Define the Mongoose Schema
-const InspectionSchema = new Schema<IInspection>({
+
+const inspectionSchema = new Schema<IInspection>({
     carId:
     {
         type: Schema.Types.ObjectId,
@@ -31,8 +32,9 @@ const InspectionSchema = new Schema<IInspection>({
     required: true
     },
 });
-// Export the model
-const Inspection = mongoose.model<IInspection>("Inspection", InspectionSchema);
+
+const Inspection = mongoose.model<IInspection>("Inspection", inspectionSchema);
+
 export default Inspection;
 
 

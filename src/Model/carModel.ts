@@ -1,20 +1,21 @@
+//Mongoose
 import mongoose, { Document, Schema } from 'mongoose';
-// Define an interface for the User document
+
 interface ICar{
   model: string;
-  manufracturer: string;
+  manufacturer: string;
   year:Date;
   price: string;
   status: string;
 }
-// Define the schema
+
 const carSchema: Schema<ICar> = new Schema(
   {
     model: {
       type: String,
       required: true,
     },
-    manufracturer: {
+    manufacturer: {
       type: String,
       required: true,
     },
@@ -31,8 +32,9 @@ const carSchema: Schema<ICar> = new Schema(
       required: true,
     },
   },
-  { timestamps: true } // Automatically add createdAt and updatedAt fields
+  { timestamps: true }
 );
-// Create the model
+
 const Car = mongoose.model<ICar>('Car', carSchema);
+
 export default Car;
