@@ -26,5 +26,8 @@ export const Messages: Record<string, string> = {
     CarNotFound:'Car Not Found',
     InquiryNotFound:'Inquiry Not Found',
     InspectionNotFound:'Inspection Not Found',
-    TestdriveNotFound:'Test-Drive Not Found'
+    TestdriveNotFound:'Test-Drive Not Found',
+    NoFileFound:'No File Found',
+    FileUpload:'File has been uploaded successfully',
+    ServerError:'Server Error',
 };

@@ -26,6 +26,9 @@ import inspectionRoute from './Routes/inspectionRoutes';
 import inquiryRoute from './Routes/inquiryRoute'
 
 
+//UploadImage
+import imageuploadRoute from './Routes/uploadimageRoutes'
+
 dotenv.config();
 
 const app: Application = express();
@@ -48,3 +51,4 @@ app.use("/car",carRoute);
 app.use("/testdrive",testdriveRoute);
 app.use("/inspection",inspectionRoute);
 app.use("/inquiry",inquiryRoute);
+app.use("/upload",imageuploadRoute)
