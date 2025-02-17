@@ -107,9 +107,7 @@ export const getallFiles = async (req: Request, res: Response): Promise<void> =>
 
 
 
-  // Delete image api
-
-
+  // Delete  api
 export const deleteFile = async (req: Request, res: Response): Promise<void> => {
   try {
     const { filename } = req.params;
@@ -144,7 +142,7 @@ export const updateFile = [
       const uploadedFile = req.file;    
       
       if (!uploadedFile) {
-       res.status(400).json({ message: 'No file uploaded' });
+       res.status(400).json({ message:Messages.NoFileFound });
        return;
       }
 
@@ -166,7 +164,7 @@ export const updateFile = [
         filename: uploadedFile.originalname, 
       });
     } catch (error) {
-      res.status(500).json({ error: error instanceof Error ? error.message : 'Server error' });
+      res.status(500).json({ error: error instanceof Error ? error.message : Messages.ServerError});
     }
   },
 ];
