@@ -13,7 +13,7 @@ import {
 
 //Authentication
 import verifytoken from "../Middleware/authantication";
-import { forgotPassword, resetPassword } from "../Controllers/passwordController";
+import { forgotPassword, resetPassword, verifyOtp } from "../Controllers/passwordController";
 
 const router = express.Router();
 
@@ -25,5 +25,6 @@ router.delete("/deleteuser/:id", deleteUser);
 router.patch("/updateuser/:id", updateUser);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
+router.post("/verify-otp", verifyOtp);
 export default router;
 
